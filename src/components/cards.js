@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "./cards.css";
 
-const Cards = () => {
+const Cards = (props) => {
 
-    const [character, setCharacter] = useState("traveler-anemo")
-    const [vision, setVision] = useState("anemo");
+    const [character, setCharacter] = useState(props.name)
+    const [vision, setVision] = useState(props.vision);
 
-    async function getCharacterNames() {
+    async function getCharacterData() {
         let response = await fetch("https://api.genshin.dev/characters/")
         let characterList = await response.json()
         //Remove Thoma from character list as API does not have icon-big for this character (sorry Thoma!)
@@ -14,34 +14,36 @@ const Cards = () => {
             return char !== "thoma"
         });
 
-        return (noThomaCharacterList[Math.floor(Math.random()*noThomaCharacterList.length)])
+        let charName = (noThomaCharacterList[Math.floor(Math.random()*noThomaCharacterList.length)])
+
+        let visionResponse = await fetch (`https://api.genshin.dev/characters/${charName}`)
+        let characterData = await visionResponse.json();
+
+        let charObj = {
+            name: charName,
+            vision: characterData.vision
+        }
+        return charObj
     }
 
-    async function getCharacterVision () {
-        let response = await fetch (`https://api.genshin.dev/characters/${character}`)
-        let characterInfo = await response.json();
-        return characterInfo.vision;
-    }
 
     function handleCharacterChange() {
         const img=document.getElementById("characterImage")
         const visionImg = document.getElementById("characterVision")
-        getCharacterNames().then(result => {
+        getCharacterData().then(result => {
             setCharacter(() => {
-                let newCharacter = result;
+                let newCharacter = result.name;
                 return newCharacter
             });
-        })
-        getCharacterVision().then( result => {
+            
             setVision(() => {
-                let newVision = result;
+                let newVision = result.vision;
                 return newVision;
             });
-        })
-        
-        img.src=getCharacterImage(character)
-        visionImg.src = `https://api.genshin.dev/elements/${vision.toLowerCase()}/icon`;
-        console.log(visionImg.src)
+        }).then( () => {
+            img.src=getCharacterImage();
+            visionImg.src = getVisionImage();
+        });
     }
 
     function getCharacterImage() {
@@ -52,18 +54,21 @@ const Cards = () => {
         return url;
     }
 
+    function getVisionImage() {
+        let url = `https://api.genshin.dev/elements/${vision.toLowerCase()}/icon`
+        return url;
+    }
 
     return(
-        <div className="card">
+        <div onClick={handleCharacterChange} className="card">
             <div className="imageContainer">
-                <img onClick={handleCharacterChange} id="characterImage" src={getCharacterImage()} alt={character}></img>
+                <img id="characterImage" src={`https://api.genshin.dev/characters/${character}/icon-big`} alt={character}></img>
                 <div className="aboutCharacter">
-                    <img id="characterVision" src={`https://api.genshin.dev/elements/anemo/icon`} alt="vision"></img>
+                    <img id="characterVision" src={`https://api.genshin.dev/elements/${vision.toLowerCase()}/icon`} alt="vision"></img>
                 </div>
             </div>
         </div>
     )       
 }
-
 
 export default Cards
