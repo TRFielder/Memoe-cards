@@ -28,8 +28,8 @@ const Cards = (props) => {
 
 
     function handleCharacterChange() {
-        const img=document.getElementById(`characterImage${props.key}`)
-        const visionImg = document.getElementById(`characterVision${props.key}`)
+        const img=document.getElementById(`characterImage${props.num}`)
+        const visionImg = document.getElementById(`characterVision${props.num}`)
         getCharacterData().then(result => {
             setCharacter(() => {
                 let newCharacter = result.name;
@@ -62,9 +62,9 @@ const Cards = (props) => {
     return(
         <div onClick={handleCharacterChange} className="card">
             <div className="imageContainer">
-                <img id={`characterImage${props.key}`} src={`https://api.genshin.dev/characters/${character}/icon-big`} alt={character}></img>
+                <img id={`characterImage${props.num}`} src={`https://api.genshin.dev/characters/${character}/icon-big`} alt={character}></img>
                 <div className="aboutCharacter">
-                    <img id={`characterVision${props.key}`} src={`https://api.genshin.dev/elements/${vision.toLowerCase()}/icon`} alt="vision"></img>
+                    <img id={`characterVision${props.num}`} src={`https://api.genshin.dev/elements/${vision.toLowerCase()}/icon`} alt="vision"></img>
                 </div>
             </div>
         </div>
