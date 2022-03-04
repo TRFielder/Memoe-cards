@@ -14,18 +14,19 @@ const Game = () => {
         const noIconCharacterList = characterList.filter(function(char) {
             return char !== "thoma" && char !== "traveler-anemo" && char !== "traveler-electro" && char !== "traveler-geo" 
         });
-
-        let charName = (noIconCharacterList[Math.floor(Math.random()*noIconCharacterList.length)])
-
-        let visionResponse = await fetch (`https://api.genshin.dev/characters/${charName}`)
-        let characterData = await visionResponse.json();
-
-        let charObj = {
-            name: charName,
-            vision: characterData.vision
+        let charName;
+        let characterData;
+        let randomCharacters = []
+        for (let i = 0; i < level+3; i++) {
+            charName = (noIconCharacterList[Math.floor(Math.random()*noIconCharacterList.length)])
+            let visionResponse = await fetch (`https://api.genshin.dev/characters/${charName}`)
+            characterData = await visionResponse.json();
+            randomCharacters[i] = {
+                name: charName,
+                vision: characterData.vision
+            }
         }
-
-        return charObj
+        return randomCharacters
     }
 
     const decrementLevel = () => {
@@ -41,7 +42,7 @@ const Game = () => {
         let numCards = level+3;
         for (let i = 0; i < numCards; i++) {
             getCharacterData().then(result => {
-                    setCharacters(characters => [...characters, result])
+                    setCharacters(characters => [...characters, result[i]])
             })
         }
     }
