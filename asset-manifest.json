@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/trfielder.github.io/memoe-cards/static/css/main.adb174b4.css",
-    "main.js": "/trfielder.github.io/memoe-cards/static/js/main.d70b70e2.js",
+    "main.css": "/trfielder.github.io/memoe-cards/static/css/main.1fb94302.css",
+    "main.js": "/trfielder.github.io/memoe-cards/static/js/main.7fb3640e.js",
     "index.html": "/trfielder.github.io/memoe-cards/index.html",
-    "main.adb174b4.css.map": "/trfielder.github.io/memoe-cards/static/css/main.adb174b4.css.map",
-    "main.d70b70e2.js.map": "/trfielder.github.io/memoe-cards/static/js/main.d70b70e2.js.map"
+    "main.1fb94302.css.map": "/trfielder.github.io/memoe-cards/static/css/main.1fb94302.css.map",
+    "main.7fb3640e.js.map": "/trfielder.github.io/memoe-cards/static/js/main.7fb3640e.js.map"
   },
   "entrypoints": [
-    "static/css/main.adb174b4.css",
-    "static/js/main.d70b70e2.js"
+    "static/css/main.1fb94302.css",
+    "static/js/main.7fb3640e.js"
   ]
 }
