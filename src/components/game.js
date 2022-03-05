@@ -59,6 +59,7 @@ const Game = () => {
     }
 
     const resetLevel = () => {
+        console.log("resetting level")
         setLevel(1);
     }
 
@@ -78,18 +79,13 @@ const Game = () => {
     }, [...characters.map(item => item.clicked)] )
 
     useEffect(() => {
-        //Check for win when characters are updated
-        if(characters.some(char => char.shouldLose === true)) {
-            loseGame();
+        if(lose) {
+        console.log("Loss detected")
+        resetLevel();
         }
-    }, [...characters.map(item => item.shouldLose)] )
-
-    useEffect(() => {
-        if(lose) resetLevel();
     }, [lose] )
 
     const cardClicked = (character) => {
-        console.table(characters)
         if(checkLose(character)) {
             loseGame();
         }
@@ -104,7 +100,7 @@ const Game = () => {
         if(!updatedChars[index].clicked) {
             updatedChars[index].clicked = true
         } else if (updatedChars[index].clicked) {
-            updatedChars[index].shouldLose = true;
+            loseGame();
         };
       
         let shufCards = updatedChars.sort(() => 0.5 - Math.random())
