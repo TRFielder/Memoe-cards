@@ -5,15 +5,10 @@ const Cards = (props) => {
 
     const [character] = useState(props.name);
     const [vision] = useState(props.vision);
-    const [clicked, setClick] = useState(props.clicked);
 
     const selectCard = () => {
-        let card = document.getElementById(`card-${character}`);
-        card.classList.toggle("rotated");
-        setClick(true);
-        props.shuffle();
+        props.cardClicked(character);
     }
-
 
     return(
         <div className={"card"} id={`card-${character}`} onClick={selectCard}>
@@ -24,7 +19,7 @@ const Cards = (props) => {
                 </div>
             </div>
         </div>
-    )       
+    )
 }
 
 export default Cards

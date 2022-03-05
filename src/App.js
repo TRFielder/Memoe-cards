@@ -1,4 +1,5 @@
 import './App.css';
+import "./globalstyle.css"
 import Game from './components/game';
 import Footer from './components/footer';
 
