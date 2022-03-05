@@ -4,8 +4,15 @@ import "./game.css";
 
 const Game = () => {
 
-    const [level, setLevel] = useState(1)
-    const [characters, setCharacters] = useState([])
+    const [level, setLevel] = useState(1);
+    const [characters, setCharacters] = useState([
+        {name: "raiden", vision: "electro"},
+        {name: "zhongli", vision: "geo"},
+        {name: "venti", vision: "anemo"},
+        {name: "bennett", vision: "pyro"}
+    ]);
+    const [lose, setLose] = useState(false);
+    const maxLevel = 41;
 
     async function getCharacterData() {
         let response = await fetch("https://api.genshin.dev/characters/")
@@ -38,12 +45,8 @@ const Game = () => {
         return randomCharacters
     }
 
-    const decrementLevel = () => {
-        setLevel(level-1)
-    }
-
-    const incrementLevel = () => {
-        setLevel(level+1)
+    const loseGame = () => {
+        setLose(true);
     }
 
     const newCharacters = () => {
@@ -53,16 +56,29 @@ const Game = () => {
             })
     }
 
+    const decrementLevel = () => {
+        setLevel( (level-1) );
+    }
+
+    const incrementLevel = () => {
+        if (level < maxLevel) setLevel( (level+1) );
+    }
+
+    const shuffleCards = () => {
+        let shufCards = characters.sort(() => 0.5 - Math.random())
+        setCharacters([...shufCards])
+    }
+
     return(
         <div className="game" id="game">
 
             <ul className="card-display">                
-                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} />) }               
+                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} shuffle={shuffleCards}/>) }               
             </ul>
             <button onClick={newCharacters}>NEW SET</button>
             <button onClick={incrementLevel}>LEVEL UP</button>
             <button onClick={decrementLevel}>LEVEL DOWN</button>
-
+            <button onClick={shuffleCards}>SHUFFLE CARDS</button>
         </div>
     )
 }

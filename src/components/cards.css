@@ -1,11 +1,13 @@
 div[class^=card] {
-    width: 125px;
-    height: 180px;
-    border: 3px solid whitesmoke;
-    border-radius: 5px;
-    display: flex;
-    box-sizing: content-box;
-    margin: 5px;
+  width: 125px;
+  height: 180px;
+  border: 3px solid whitesmoke;
+  border-radius: 5px;
+  display: flex;
+  box-sizing: content-box;
+  margin: 5px;
+  background: rgb(242,220,193);
+  background: linear-gradient(225deg, rgba(242,220,193,1) 0%, rgba(186,137,76,1) 55%, rgba(111,89,61,1) 100%);
 }
 
 .rotated {
@@ -13,43 +15,44 @@ div[class^=card] {
 	        animation: rotate-vert-center 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
- @-webkit-keyframes rotate-vert-center {
-    0% {
-      -webkit-transform: rotateY(0);
-              transform: rotateY(0);
-    }
-    100% {
-      -webkit-transform: rotateY(360deg);
-              transform: rotateY(360deg);
-    }
+@-webkit-keyframes rotate-vert-center {
+  0% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
   }
-  @keyframes rotate-vert-center {
-    0% {
-      -webkit-transform: rotateY(0);
-              transform: rotateY(0);
-    }
-    100% {
-      -webkit-transform: rotateY(360deg);
-              transform: rotateY(360deg);
-    }
+  100% {
+    -webkit-transform: rotateY(360deg);
+            transform: rotateY(360deg);
   }
+}
+@keyframes rotate-vert-center {
+  0% {
+    -webkit-transform: rotateY(0);
+            transform: rotateY(0);
+  }
+  100% {
+    -webkit-transform: rotateY(360deg);
+            transform: rotateY(360deg);
+  }
+}
   
 .imageContainer {
-    margin: auto;
-    padding: 10px;
-    width: 95%;
-    height: 95%;
+  margin: auto;
+  padding: 10px;
+  width: 95%;
+  height: 95%;
 }
 
 .imageContainer img[id^='characterImage'] {
-    height: 100px;
-    object-fit: cover;
-    border: 1px solid white;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid white;
+  background-color: #282c34;
 }
 
 .aboutCharacter {
-    height: 80px;
+  height: 80px;
 }
 .aboutCharacter img[id^='characterVision'] {
-    height: 50%;
+  height: 50%;
 }

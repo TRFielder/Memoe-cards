@@ -1,7 +1,7 @@
 {
   "name": "memory-card",
   "version": "0.1.0",
-  "homepage": "trfielder.github.io/memoe-cards",
+  "homepage": "http://TRFielder.github.io/Memoe-cards",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.2",

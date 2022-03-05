@@ -5,18 +5,18 @@ const Cards = (props) => {
 
     const [character] = useState(props.name);
     const [vision] = useState(props.vision);
-    const [clicked, setClick] = useState(false);
-    const [failCondition, setFail] = useState(false);
+    const [clicked, setClick] = useState(props.clicked);
 
     const selectCard = () => {
-        let card = document.getElementById(`card${character}`);
-        card.classList.add("rotated");
-        if(clicked) setFail(true);
-        else if(!clicked) setClick(true);
+        let card = document.getElementById(`card-${character}`);
+        card.classList.toggle("rotated");
+        setClick(true);
+        props.shuffle();
     }
 
+
     return(
-        <div className={"card"} id={`card${character}`} onClick={selectCard}>
+        <div className={"card"} id={`card-${character}`} onClick={selectCard}>
             <div className="imageContainer">
                 <img id={`characterImage`} src={`https://api.genshin.dev/characters/${character}/icon-big`} alt={character}></img>
                 <div className="aboutCharacter">
