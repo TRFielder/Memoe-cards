@@ -13,7 +13,6 @@ const Game = () => {
     ]);
     const [lose, setLose] = useState(false);
     const maxLevel = 41;
-    const minLevel = 1;
 
     async function getCharacterData() {
         let response = await fetch("https://api.genshin.dev/characters/")
@@ -78,8 +77,17 @@ const Game = () => {
         }
     }, [...characters.map(item => item.clicked)] )
 
+    useEffect(() => {
+        if(lose) resetLevel();
+    }, [lose] )
+
     const cardClicked = (character) => {
         //checkWinLose;
+        if(checkLose(character)) {
+            console.log("You lost! let's start over")
+            setLose(true);
+        }
+
         let card = document.getElementById(`card-${character}`);
         card.classList.toggle("rotated");
 
@@ -91,12 +99,14 @@ const Game = () => {
       
         let shufCards = updatedChars.sort(() => 0.5 - Math.random())
         setCharacters([...shufCards])
-
     }
 
-    const checkWinLose = () => {
-        return(characters.every(char => char.clicked === true))
-            
+    const checkLose = (character) => {
+        let index = characters.findIndex(item => item.name === character)
+        if(characters[index].clicked === true) {
+            return true
+        }
+        return false;
     }
 
     return(
