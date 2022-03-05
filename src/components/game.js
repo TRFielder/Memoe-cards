@@ -6,10 +6,10 @@ const Game = () => {
 
     const [level, setLevel] = useState(1);
     const [characters, setCharacters] = useState([
-        {name: "raiden", vision: "electro", clicked: false},
-        {name: "zhongli", vision: "geo", clicked: false},
-        {name: "venti", vision: "anemo", clicked: false},
-        {name: "bennett", vision: "pyro", clicked: false}
+        {name: "raiden", vision: "electro", clicked: false, shouldLose: false},
+        {name: "zhongli", vision: "geo", clicked: false, shouldLose: false},
+        {name: "venti", vision: "anemo", clicked: false, shouldLose: false},
+        {name: "bennett", vision: "pyro", clicked: false, shouldLose: false}
     ]);
     const [lose, setLose] = useState(false);
     const maxLevel = 41;
@@ -78,14 +78,20 @@ const Game = () => {
     }, [...characters.map(item => item.clicked)] )
 
     useEffect(() => {
+        //Check for win when characters are updated
+        if(characters.some(char => char.shouldLose === true)) {
+            loseGame();
+        }
+    }, [...characters.map(item => item.shouldLose)] )
+
+    useEffect(() => {
         if(lose) resetLevel();
     }, [lose] )
 
     const cardClicked = (character) => {
-        //checkWinLose;
+        console.table(characters)
         if(checkLose(character)) {
-            console.log("You lost! let's start over")
-            setLose(true);
+            loseGame();
         }
 
         let card = document.getElementById(`card-${character}`);
@@ -95,7 +101,11 @@ const Game = () => {
 
         let index = updatedChars.findIndex(item => item.name === character)
 
-        updatedChars[index].clicked = true;
+        if(!updatedChars[index].clicked) {
+            updatedChars[index].clicked = true
+        } else if (updatedChars[index].clicked) {
+            updatedChars[index].shouldLose = true;
+        };
       
         let shufCards = updatedChars.sort(() => 0.5 - Math.random())
         setCharacters([...shufCards])
@@ -113,7 +123,7 @@ const Game = () => {
         <div className="game" id="game">
 
             <ul className="card-display">                
-                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} cardClicked={cardClicked}/>) }               
+                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} shouldLose={false} cardClicked={cardClicked}/>) }               
             </ul>
             <button onClick={resetLevel}>RESTART</button>
             <p>Level: {level}</p>
