@@ -56,13 +56,11 @@ const Game = () => {
         setCharacters([]);
             getCharacterData().then(result => {
                     setCharacters(result)
-                    console.log("New chars set")
-                    console.log(level)
             })
     }
 
-    const decrementLevel = () => {
-        if(level > minLevel) setLevel(level-1);
+    const resetLevel = () => {
+        setLevel(1);
     }
 
     const incrementLevel = () => {
@@ -72,6 +70,13 @@ const Game = () => {
     useEffect(() => {
         newCharacters();
     }, [level])
+
+    useEffect(() => {
+        //Check for win when characters are updated
+        if(characters.every(char => char.clicked === true)) {
+            incrementLevel();
+        }
+    }, [...characters.map(item => item.clicked)] )
 
     const cardClicked = (character) => {
         //checkWinLose;
@@ -83,13 +88,10 @@ const Game = () => {
         let index = updatedChars.findIndex(item => item.name === character)
 
         updatedChars[index].clicked = true;
-        if(checkWinLose()){
-            incrementLevel();
-        } 
-        else {
-            let shufCards = updatedChars.sort(() => 0.5 - Math.random())
-            setCharacters([...shufCards])
-        }
+      
+        let shufCards = updatedChars.sort(() => 0.5 - Math.random())
+        setCharacters([...shufCards])
+
     }
 
     const checkWinLose = () => {
@@ -103,9 +105,7 @@ const Game = () => {
             <ul className="card-display">                
                 { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} cardClicked={cardClicked}/>) }               
             </ul>
-            <button onClick={newCharacters}>NEW SET</button>
-            <button onClick={incrementLevel}>LEVEL UP</button>
-            <button onClick={decrementLevel}>LEVEL DOWN</button>
+            <button onClick={resetLevel}>RESTART</button>
             <p>Level: {level}</p>
         </div>
     )
