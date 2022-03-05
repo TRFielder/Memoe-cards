@@ -11,19 +11,28 @@ const Game = () => {
         let response = await fetch("https://api.genshin.dev/characters/")
         let characterList = await response.json()
         //Remove Thoma from character list as API does not have icon-big for this character (sorry Thoma!)
-        const noIconCharacterList = characterList.filter(function(char) {
+        const filteredCharList = characterList.filter(function(char) {
             return char !== "thoma" && char !== "traveler-anemo" && char !== "traveler-electro" && char !== "traveler-geo" 
         });
-        let charName;
-        let characterData;
+
         let randomCharacters = []
-        for (let i = 0; i < level+3; i++) {
-            charName = (noIconCharacterList[Math.floor(Math.random()*noIconCharacterList.length)])
-            let visionResponse = await fetch (`https://api.genshin.dev/characters/${charName}`)
-            characterData = await visionResponse.json();
-            randomCharacters[i] = {
-                name: charName,
-                vision: characterData.vision
+
+        let counter = 0;
+        while(counter < level+3){
+            //Generate a random item from the character name array and check if it is already in the list of selected names with randomCharacters.some()
+            let randomCharName = (filteredCharList[ Math.floor(Math.random() * filteredCharList.length) ] );
+            if(!randomCharacters.some( char => char.name === randomCharName ) ){
+
+                let visionResponse = await fetch (`https://api.genshin.dev/characters/${randomCharName}`)
+                let characterData = await visionResponse.json();
+
+                randomCharacters.push(
+                    {
+                        name: randomCharName,
+                        vision: characterData.vision
+                    }
+                )
+                counter++;
             }
         }
         return randomCharacters
@@ -39,19 +48,16 @@ const Game = () => {
 
     const newCharacters = () => {
         setCharacters([]);
-        let numCards = level+3;
-        for (let i = 0; i < numCards; i++) {
             getCharacterData().then(result => {
-                    setCharacters(characters => [...characters, result[i]])
+                    setCharacters(result)
             })
-        }
     }
 
     return(
         <div className="game" id="game">
 
             <ul className="card-display">                
-                {characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} />)}               
+                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} />) }               
             </ul>
             <button onClick={newCharacters}>NEW SET</button>
             <button onClick={incrementLevel}>LEVEL UP</button>
