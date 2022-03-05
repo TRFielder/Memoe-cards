@@ -1,11 +1,12 @@
-import './App.css';
-import "./globalstyle.css"
+import "./styles/globalstyle.css";
+import Header from './components/header';
 import Game from './components/game';
 import Footer from './components/footer';
 
 function App() {
   return (
     <div className="App">
+      <Header />
       <header className="App-header">
         <Game />
       </header>

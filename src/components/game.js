@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Cards from "./cards";
-import "./game.css";
+import "./styles/game.css";
 
 const Game = () => {
 
