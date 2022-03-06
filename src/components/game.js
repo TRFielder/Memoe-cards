@@ -71,7 +71,10 @@ const Game = () => {
     }
 
     const incrementLevel = () => {
-        if(level < maxLevel) setLevel(level+1);
+        if(level < maxLevel) {
+            setLevel(level+1);
+            setClearLevel(false);
+        }
     }
 
     useEffect(() => {
