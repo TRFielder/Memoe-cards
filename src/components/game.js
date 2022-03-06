@@ -158,6 +158,7 @@ const Game = () => {
                 <p>Level: {level}</p>
                 <p>Score: {score}</p>
                 <p>High score: {highScore}</p>
+                <p>Click on every card, but don't click the same one twice!</p>
             </div>
         </div>
         );

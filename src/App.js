@@ -7,8 +7,8 @@ import { Helmet, HelmetProvider } from "react-helmet-async"
 function App() {
   return (
     <div className="App">
-      <Header />
-      <header className="App-header">
+      <Header />  
+        <header className="App-header">
         <Game />
       </header>
       <Footer />
