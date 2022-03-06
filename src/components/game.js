@@ -5,13 +5,11 @@ import "./styles/game.css";
 const Game = () => {
 
     const [level, setLevel] = useState(1);
-    const [characters, setCharacters] = useState([
-        {name: "raiden", vision: "electro", clicked: false, shouldLose: false},
-        {name: "zhongli", vision: "geo", clicked: false, shouldLose: false},
-        {name: "venti", vision: "anemo", clicked: false, shouldLose: false},
-        {name: "bennett", vision: "pyro", clicked: false, shouldLose: false}
-    ]);
+    const [characters, setCharacters] = useState([]);
     const [lose, setLose] = useState(false);
+    const [clearLevel, setClearLevel] = useState(false);
+    const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
     const maxLevel = 41;
 
     async function getCharacterData() {
@@ -59,8 +57,17 @@ const Game = () => {
     }
 
     const resetLevel = () => {
-        console.log("resetting level")
+        console.log("resetting game")
         setLevel(1);
+        setScore(0);
+        setLose(false);
+        //Added this to ensure you can keep playing even if you fail on level 1
+        //Without this, need to f5 the page to start over if you lose on level 1...
+        if(level === 1) {
+            let resetChars = characters;
+            resetChars.forEach(item => item.clicked = false)
+            setCharacters(resetChars)
+        }
     }
 
     const incrementLevel = () => {
@@ -68,22 +75,19 @@ const Game = () => {
     }
 
     useEffect(() => {
+        if(score > highScore) setHighScore(score)
+    }, [score])
+
+    useEffect(() => {
         newCharacters();
     }, [level])
 
     useEffect(() => {
         //Check for win when characters are updated
-        if(characters.every(char => char.clicked === true)) {
+        if(clearLevel) {
             incrementLevel();
         }
-    }, [...characters.map(item => item.clicked)] )
-
-    useEffect(() => {
-        if(lose) {
-        console.log("Loss detected")
-        resetLevel();
-        }
-    }, [lose] )
+    }, [clearLevel] )
 
     const cardClicked = (character) => {
         if(checkLose(character)) {
@@ -91,20 +95,37 @@ const Game = () => {
         }
 
         let card = document.getElementById(`card-${character}`);
+        card.addEventListener("animationend", function() {
+            card.classList.remove("rotated");
+        })
         card.classList.toggle("rotated");
 
         let updatedChars = characters;
-
         let index = updatedChars.findIndex(item => item.name === character)
 
         if(!updatedChars[index].clicked) {
             updatedChars[index].clicked = true
+            incrementScore();
         } else if (updatedChars[index].clicked) {
             loseGame();
         };
+
+        
       
         let shufCards = updatedChars.sort(() => 0.5 - Math.random())
         setCharacters([...shufCards])
+
+        checkWin();
+    }
+
+    const incrementScore = () => {
+        setScore(score+1);
+    }
+
+    const checkWin = () => {
+        if(characters.every(char => char.clicked === true)) {
+            setClearLevel(true);
+        }
     }
 
     const checkLose = (character) => {
@@ -115,15 +136,31 @@ const Game = () => {
         return false;
     }
 
-    return(
-        <div className="game" id="game">
-
-            <ul className="card-display">                
-                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} shouldLose={false} cardClicked={cardClicked}/>) }               
-            </ul>
+    if(lose) {
+        return(
+            <div className="game" id="game">
+                <p>YOU LOST AT LEVEL: {level}</p>
+                <p>Score: {score}</p>
             <button onClick={resetLevel}>RESTART</button>
             <p>Level: {level}</p>
         </div>
-    )
+        )
+    }
+    else {
+        return(
+        <div className="game" id="game">
+
+            <ul className="card-display">                
+                { characters.map(char => <Cards key={char.name} name={char.name} vision={char.vision} clicked={false} shouldLose={false} cardClicked={cardClicked} />) }               
+            </ul>
+            <button onClick={resetLevel}>RESTART</button>
+            <div id="scoreboard">
+                <p>Level: {level}</p>
+                <p>Score: {score}</p>
+                <p>High score: {highScore}</p>
+            </div>
+        </div>
+        );
+    }
 }
 export default Game;

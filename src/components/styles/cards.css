@@ -5,9 +5,15 @@ div[class^=card] {
   border-radius: 5px;
   display: flex;
   box-sizing: content-box;
+  box-shadow: -4px 11px 16px -3px rgba(255,255,255,0.2);
   margin: 5px;
   background: rgb(242,220,193);
   background: linear-gradient(225deg, rgba(242,220,193,1) 0%, rgba(186,137,76,1) 55%, rgba(111,89,61,1) 100%);
+  transition: all .1s ease-in-out;
+}
+
+div[class^=card]:hover {
+  transform: scale(1.1);
 }
 
 .rotated {
