@@ -1,21 +1,21 @@
 #header {
-    background-color: #101010;
+    background-color: #02010A;
     width: 100%;
-    height: 80px;
+    max-height: 100px;
     display: block;
 }
 
 .innerHeader {
-    width: 75%;
-    height: 100%;
-    display: block;
+    width: 70%;
+    display: flex;
     margin: 0 auto;
+    justify-content: space-between;
 }
 
 .logoContainer {
     height: 100%;
     display: table;
-    float: left;
+    margin: auto 0;
 }
 
 .logoContainer h1 {
@@ -23,6 +23,30 @@
     height: 100%;
     display: table-cell;
     vertical-align: middle;
-    font-size: 32px;
+    font-size: x-large;
     font-weight: 200;
+}
+
+.header-links {
+    height: 100%;
+}
+
+.header-links ul{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.header-links li {
+    font-size: smaller;
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 1rem;
+}
+
+.active li {
+    transform: scale(1.2);
+    transition: all 0.2s ease-in-out;
 }

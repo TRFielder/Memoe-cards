@@ -1,14 +1,15 @@
 #footer {
-    width: 100vw;
-    display: block;
+    width: 100%;
+    display: flex;
     overflow: hidden;
-    padding: 70px 0;
+    padding: 2% 0;
     box-sizing: border-box;
-    background: #18181a;
+    background: #02010A;
+    position: absolute;
+    bottom: 0;
 }
 
 .innerFooter {
-    display: block;
     margin: 0 auto;
     width: 75%;
     height: 100%;
@@ -16,9 +17,7 @@
 
 .innerFooter .logoContainer {
     width: 35%;
-    float: left;
     height: 100%;
-    display: block;
     color: white;
-    font-size: 26px;
+    font-size: larger;
 }
